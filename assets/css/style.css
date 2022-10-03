@@ -4,7 +4,7 @@ nav ul{
 }
 
 #countdown{
-    text-align: right;
+    text-align: center;
 }
 
 main {
@@ -16,4 +16,9 @@ button{
     font-size: 24px;
     background-color: #247BA0;
     color: white;
+}
+
+.quiz-page button{
+    display: block;
+    margin-left: 25%;
 }
