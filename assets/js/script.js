@@ -10,6 +10,7 @@ var choice4 = document.getElementById('ans4');
 var result = document.getElementById('result');
 var doneSwitch = document.querySelector('.done-page');
 var score = document.getElementById('score');
+var submit = document.getElementById('submit');
 
 var q1 = {
     question: "Arrays in JavaScript can be used to store __________.",
@@ -154,8 +155,16 @@ function quiz(){
     });
 }
 
+var finalScore;
+
 function done(){
     doneSwitch.style.display = 'initial';
     quizSwitch.style.display = 'none';
-    score.textContent = 'Your final score is '+ secondsLeft + '.';
+    finalScore = secondsLeft;
+    score.textContent = 'Your final score is '+ finalScore + '.';
+    submit.addEventListener("click", function(){
+        var input = document.getElementById('initials').value;
+        localStorage.setItem("initials", input);
+        localStorage.setItem("highscore", finalScore);
+    });
 }
