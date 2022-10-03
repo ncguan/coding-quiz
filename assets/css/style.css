@@ -1,0 +1,19 @@
+nav ul{
+    list-style: none;
+    color: #03648e;
+}
+
+#countdown{
+    text-align: right;
+}
+
+main {
+    text-align: center;
+}
+
+button{
+    padding: 10px;
+    font-size: 24px;
+    background-color: #247BA0;
+    color: white;
+}
