@@ -8,6 +8,8 @@ var choice2 = document.getElementById('ans2');
 var choice3 = document.getElementById('ans3');
 var choice4 = document.getElementById('ans4');
 var result = document.getElementById('result');
+var doneSwitch = document.querySelector('.done-page');
+var score = document.getElementById('score');
 
 var q1 = {
     question: "Arrays in JavaScript can be used to store __________.",
@@ -28,6 +30,7 @@ var q3 = {
 var arrQuestions = [q1, q2, q3];
 
 quizSwitch.style.display = 'none';
+doneSwitch.style.display = 'none';
 
 startQuiz.addEventListener("click", function(){
     countdown();
@@ -35,7 +38,6 @@ startQuiz.addEventListener("click", function(){
     quizSwitch.style.display = 'initial';
     displayQuestion();
     quiz();
-
 });
 
 var secondsLeft = 76;
@@ -69,47 +71,91 @@ function quiz(){
     choice1.addEventListener("click", function(){
         if (choiceOne == arrQuestions[randIndex].correct){
             result.textContent = 'Correct!';
+            arrQuestions.splice(randIndex,1);
             displayQuestion();
         }
         else {
             result.textContent = 'Wrong!';
             secondsLeft = secondsLeft-10;
+            arrQuestions.splice(randIndex,1);
             displayQuestion();
         }
     });
     choice2.addEventListener("click", function(){
         if (choiceTwo == arrQuestions[randIndex].correct){
             result.textContent = 'Correct!';
-            displayQuestion();
+            arrQuestions.splice(randIndex,1);
+            if (arrQuestions.length>0){
+                displayQuestion();
+            }
+            else {
+                done();
+            }
         }
         else {
             result.textContent = 'Wrong!';
             secondsLeft = secondsLeft-10;
-            displayQuestion();
+            arrQuestions.splice(randIndex,1);
+            if (arrQuestions.length>0){
+                displayQuestion();
+            }
+            else {
+                done();
+            }
         }
 
     });
     choice3.addEventListener("click", function(){
         if (choiceThree == arrQuestions[randIndex].correct){
             result.textContent = 'Correct!';
-            displayQuestion();
+            arrQuestions.splice(randIndex,1);
+            if (arrQuestions.length>0){
+                displayQuestion();
+            }
+            else {
+                done();
+            }
         }
         else {
             result.textContent = 'Wrong!';
             secondsLeft = secondsLeft-10;
-            displayQuestion();
+            arrQuestions.splice(randIndex,1);
+            if (arrQuestions.length>0){
+                displayQuestion();
+            }
+            else {
+                done();
+            }
         }
 
     });
     choice4.addEventListener("click", function(){
         if (choiceFour == arrQuestions[randIndex].correct){
             result.textContent = 'Correct!';
-            displayQuestion();
+            arrQuestions.splice(randIndex,1);
+            if (arrQuestions.length>0){
+                displayQuestion();
+            }
+            else {
+                done();
+            }
         }
         else {
             result.textContent = 'Wrong!';
             secondsLeft = secondsLeft-10;
-            displayQuestion();
+            arrQuestions.splice(randIndex,1);
+            if (arrQuestions.length>0){
+                displayQuestion();
+            }
+            else {
+                done();
+            }
         }
     });
+}
+
+function done(){
+    doneSwitch.style.display = 'initial';
+    quizSwitch.style.display = 'none';
+    score.textContent = 'Your final score is '+ secondsLeft + '.';
 }
