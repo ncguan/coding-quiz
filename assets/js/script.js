@@ -38,12 +38,13 @@ startQuiz.addEventListener("click", function(){
 
 });
 
+var secondsLeft = 76;
+
 function countdown(){
-    var secondsLeft = 76;
     var timerInterval = setInterval(function(){
         secondsLeft--;
         timeEl.textContent = 'Time: ' + secondsLeft;
-        if(secondsLeft===0){
+        if(secondsLeft <= 0){
             clearInterval(timerInterval);
         }
     },1000);
@@ -72,6 +73,7 @@ function quiz(){
         }
         else {
             result.textContent = 'Wrong!';
+            secondsLeft = secondsLeft-10;
             displayQuestion();
         }
     });
@@ -82,6 +84,7 @@ function quiz(){
         }
         else {
             result.textContent = 'Wrong!';
+            secondsLeft = secondsLeft-10;
             displayQuestion();
         }
 
@@ -93,6 +96,7 @@ function quiz(){
         }
         else {
             result.textContent = 'Wrong!';
+            secondsLeft = secondsLeft-10;
             displayQuestion();
         }
 
@@ -104,6 +108,7 @@ function quiz(){
         }
         else {
             result.textContent = 'Wrong!';
+            secondsLeft = secondsLeft-10;
             displayQuestion();
         }
     });
