@@ -229,7 +229,6 @@ function renderList(){
         var li = document.createElement("li");
         li.textContent = init;
         li.setAttribute("data-index", i);
-
         scoreList.appendChild(li);
     }
 }
