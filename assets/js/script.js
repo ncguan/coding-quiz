@@ -42,7 +42,10 @@ doneSwitch.style.display = 'none';
 scoreSwitch.style.display = 'none';
 
 startQuiz.addEventListener("click", function(){
-    renderList();
+    var storedScores = JSON.parse(localStorage.getItem("storedValue"));
+    if(storedScores !== null){
+        highscoreArr = storedScores;
+    }
     countdown();
     startSwitch.style.display = 'none';
     quizSwitch.style.display = 'initial';
@@ -75,6 +78,7 @@ function countdown(){
         timeEl.textContent = 'Time: ' + secondsLeft;
         if(secondsLeft <= 0){
             clearInterval(timerInterval);
+            done();
         }
     },1000);
 }
@@ -196,6 +200,7 @@ function done(){
         highscoreArr.push(input + ' - ' + finalScore);
         console.log(highscoreArr);
         storeScores();
+        renderList();
         viewScores();
     });
 }
