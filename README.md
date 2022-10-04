@@ -1,6 +1,9 @@
 # Coding Quiz
 
 ## Site Screenshot
+![Coding Quiz](./assets/images/coding-quiz.gif)
+
+[Link to Deployed Website](https://ncguan.github.io/coding-quiz/)
 
 ## Technologies Used
 - HTML
