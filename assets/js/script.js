@@ -95,7 +95,6 @@ function displayQuestion(){
     choiceTwo = choice2.textContent = useArr[randIndex].choices[1];
     choiceThree = choice3.textContent = useArr[randIndex].choices[2];
     choiceFour = choice4.textContent = useArr[randIndex].choices[3];
-    console.log(useArr);
 }
 
 //checks if clicked answer is correct. displays next question after being clicked. if no more questions, end quiz
@@ -210,7 +209,6 @@ function done(){
     submit.addEventListener("click", function(){
         input = document.getElementById('initials').value;
         highscoreArr.push(input + ' - ' + finalScore);
-        console.log(highscoreArr);
         storeScores();
         renderList();
         viewScores();
