@@ -3,23 +3,55 @@ nav ul{
     color: #03648e;
 }
 
-#countdown{
+main {
     text-align: center;
 }
 
-.start-page,
-.quiz-page {
-    text-align: center;
+ol li{
+    list-style-position: inside;
 }
 
 button{
     padding: 10px;
-    font-size: 24px;
     background-color: #247BA0;
     color: white;
 }
 
-.quiz-page button{
-    display: block;
-    margin-left: 25%;
+button:hover{
+    color:#18536d;
+}
+#high-scores:hover{
+    color:#0d2d3b;
+    cursor: default;
+}
+#start{
+    font-size: 24px;
+}
+
+.ansButtons{
+    display:flex;
+    justify-content: center;
+    justify-content: space-evenly;
+}
+
+.ansButtons button{
+    font-size: 18px;
+}
+
+.done-page{
+    font-size: large;
+}
+
+label{
+    margin-left: 35%;
+}
+#initials{
+    font-size: 18px;
+}
+
+.score-page #back{
+    margin-left: 40%;
+}
+.score-page #clear{
+    margin-left: 7%;
 }
