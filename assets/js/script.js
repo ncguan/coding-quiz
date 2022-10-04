@@ -9,8 +9,12 @@ var choice3 = document.getElementById('ans3');
 var choice4 = document.getElementById('ans4');
 var result = document.getElementById('result');
 var doneSwitch = document.querySelector('.done-page');
-var score = document.getElementById('score');
+var displayScore = document.getElementById('score');
 var submit = document.getElementById('submit');
+var scoreSwitch = document.querySelector('.score-page');
+var scoreList = document.getElementById('scoreList');
+var goBack = document.getElementById('back');
+var clearScores = document.getElementById('clear');
 
 var q1 = {
     question: "Arrays in JavaScript can be used to store __________.",
@@ -29,17 +33,39 @@ var q3 = {
 }
 
 var arrQuestions = [q1, q2, q3];
+var highscoreArr = [];
+var initials = localStorage.getItem("initials");
+var score = localStorage.getItem("highscore");
 
 quizSwitch.style.display = 'none';
 doneSwitch.style.display = 'none';
+scoreSwitch.style.display = 'none';
 
 startQuiz.addEventListener("click", function(){
+    renderList();
     countdown();
     startSwitch.style.display = 'none';
     quizSwitch.style.display = 'initial';
     displayQuestion();
     quiz();
 });
+
+function renderList(){
+    var storedScores = JSON.parse(localStorage.getItem("storedValue"));
+    if(storedScores !== null){
+        highscoreArr = storedScores;
+    }
+
+    for (var i = 0; i < highscoreArr.length; i++) {
+        var init = highscoreArr[i];
+
+        var li = document.createElement("li");
+        li.textContent = init;
+        li.setAttribute("data-index", i);
+
+        scoreList.appendChild(li);
+    }
+}
 
 var secondsLeft = 76;
 
@@ -58,35 +84,37 @@ var choiceTwo;
 var choiceThree;
 var choiceFour;
 var randIndex;
+var useArr = arrQuestions.slice(0);
 
 function displayQuestion(){
-    randIndex = Math.floor(Math.random() * arrQuestions.length);
-    question.textContent = arrQuestions[randIndex].question;
-    choiceOne = choice1.textContent = arrQuestions[randIndex].choices[0];
-    choiceTwo = choice2.textContent = arrQuestions[randIndex].choices[1];
-    choiceThree = choice3.textContent = arrQuestions[randIndex].choices[2];
-    choiceFour = choice4.textContent = arrQuestions[randIndex].choices[3];
+    randIndex = Math.floor(Math.random() * useArr.length);
+    question.textContent = useArr[randIndex].question;
+    choiceOne = choice1.textContent = useArr[randIndex].choices[0];
+    choiceTwo = choice2.textContent = useArr[randIndex].choices[1];
+    choiceThree = choice3.textContent = useArr[randIndex].choices[2];
+    choiceFour = choice4.textContent = useArr[randIndex].choices[3];
+    console.log(useArr);
 }
 
 function quiz(){
     choice1.addEventListener("click", function(){
-        if (choiceOne == arrQuestions[randIndex].correct){
+        if (choiceOne == useArr[randIndex].correct){
             result.textContent = 'Correct!';
-            arrQuestions.splice(randIndex,1);
+            useArr.splice(randIndex,1);
             displayQuestion();
         }
         else {
             result.textContent = 'Wrong!';
             secondsLeft = secondsLeft-10;
-            arrQuestions.splice(randIndex,1);
+            useArr.splice(randIndex,1);
             displayQuestion();
         }
     });
     choice2.addEventListener("click", function(){
-        if (choiceTwo == arrQuestions[randIndex].correct){
+        if (choiceTwo == useArr[randIndex].correct){
             result.textContent = 'Correct!';
-            arrQuestions.splice(randIndex,1);
-            if (arrQuestions.length>0){
+            useArr.splice(randIndex,1);
+            if (useArr.length>0){
                 displayQuestion();
             }
             else {
@@ -96,8 +124,8 @@ function quiz(){
         else {
             result.textContent = 'Wrong!';
             secondsLeft = secondsLeft-10;
-            arrQuestions.splice(randIndex,1);
-            if (arrQuestions.length>0){
+            useArr.splice(randIndex,1);
+            if (useArr.length>0){
                 displayQuestion();
             }
             else {
@@ -107,10 +135,10 @@ function quiz(){
 
     });
     choice3.addEventListener("click", function(){
-        if (choiceThree == arrQuestions[randIndex].correct){
+        if (choiceThree == useArr[randIndex].correct){
             result.textContent = 'Correct!';
-            arrQuestions.splice(randIndex,1);
-            if (arrQuestions.length>0){
+            useArr.splice(randIndex,1);
+            if (useArr.length>0){
                 displayQuestion();
             }
             else {
@@ -120,8 +148,8 @@ function quiz(){
         else {
             result.textContent = 'Wrong!';
             secondsLeft = secondsLeft-10;
-            arrQuestions.splice(randIndex,1);
-            if (arrQuestions.length>0){
+            useArr.splice(randIndex,1);
+            if (useArr.length>0){
                 displayQuestion();
             }
             else {
@@ -131,10 +159,10 @@ function quiz(){
 
     });
     choice4.addEventListener("click", function(){
-        if (choiceFour == arrQuestions[randIndex].correct){
+        if (choiceFour == useArr[randIndex].correct){
             result.textContent = 'Correct!';
-            arrQuestions.splice(randIndex,1);
-            if (arrQuestions.length>0){
+            useArr.splice(randIndex,1);
+            if (useArr.length>0){
                 displayQuestion();
             }
             else {
@@ -144,8 +172,8 @@ function quiz(){
         else {
             result.textContent = 'Wrong!';
             secondsLeft = secondsLeft-10;
-            arrQuestions.splice(randIndex,1);
-            if (arrQuestions.length>0){
+            useArr.splice(randIndex,1);
+            if (useArr.length>0){
                 displayQuestion();
             }
             else {
@@ -156,15 +184,39 @@ function quiz(){
 }
 
 var finalScore;
+var input = "";
 
 function done(){
     doneSwitch.style.display = 'initial';
     quizSwitch.style.display = 'none';
     finalScore = secondsLeft;
-    score.textContent = 'Your final score is '+ finalScore + '.';
+    displayScore.textContent = 'Your final score is '+ finalScore + '.';
     submit.addEventListener("click", function(){
-        var input = document.getElementById('initials').value;
-        localStorage.setItem("initials", input);
-        localStorage.setItem("highscore", finalScore);
+        input = document.getElementById('initials').value;
+        highscoreArr.push(input + ' - ' + finalScore);
+        console.log(highscoreArr);
+        storeScores();
+        viewScores();
     });
 }
+
+function viewScores(){
+    startSwitch.style.display = 'none';
+    doneSwitch.style.display = 'none';
+    scoreSwitch.style.display = 'initial';
+}
+
+function storeScores(){
+    localStorage.setItem("storedValue", JSON.stringify(highscoreArr));
+}
+
+goBack.addEventListener("click", function(){
+    startSwitch.style.display = 'block';
+    scoreSwitch.style.display = 'none';
+    location.reload();
+});
+
+clearScores.addEventListener("click",function(){
+    localStorage.clear();
+    scoreList.textContent = '';
+});
