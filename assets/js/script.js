@@ -3,6 +3,7 @@ var quizSwitch = document.querySelector('.quiz-page');
 var doneSwitch = document.querySelector('.done-page');
 var scoreSwitch = document.querySelector('.score-page');
 var scoreList = document.getElementById('scoreList');
+var view = document.getElementById('high-scores');
 
 var q1 = {
     question: "Arrays in JavaScript can be used to store __________.",
@@ -38,10 +39,17 @@ quizSwitch.style.display = 'none';
 doneSwitch.style.display = 'none';
 scoreSwitch.style.display = 'none';
 
+view.addEventListener("click", function(){
+    view.style.display = 'none';
+    renderList();
+    viewScores();
+});
+
 
 var startQuiz = document.getElementById('start');
 //when start button is clicked, retrieve stored scores, start countdown, display quiz and hide other parts of page
 startQuiz.addEventListener("click", function(){
+    view.style.display = 'none';
     var storedScores = JSON.parse(localStorage.getItem("storedValue"));
     if(storedScores !== null){
         highscoreArr = storedScores;
@@ -243,6 +251,7 @@ var clearScores = document.getElementById('clear');
 goBack.addEventListener("click", function(){
     startSwitch.style.display = 'block';
     scoreSwitch.style.display = 'none';
+    view.style.display = 'block';
     location.reload();
 });
 
