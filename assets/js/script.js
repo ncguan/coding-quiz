@@ -1,20 +1,8 @@
-var startQuiz = document.getElementById('start');
 var startSwitch = document.querySelector('.start-page');
 var quizSwitch = document.querySelector('.quiz-page');
-var timeEl = document.getElementById('countdown');
-var question = document.getElementById('question');
-var choice1 = document.getElementById('ans1');
-var choice2 = document.getElementById('ans2');
-var choice3 = document.getElementById('ans3');
-var choice4 = document.getElementById('ans4');
-var result = document.getElementById('result');
 var doneSwitch = document.querySelector('.done-page');
-var displayScore = document.getElementById('score');
-var submit = document.getElementById('submit');
 var scoreSwitch = document.querySelector('.score-page');
 var scoreList = document.getElementById('scoreList');
-var goBack = document.getElementById('back');
-var clearScores = document.getElementById('clear');
 
 var q1 = {
     question: "Arrays in JavaScript can be used to store __________.",
@@ -31,16 +19,28 @@ var q3 = {
     choices: ["quotes", "curly brackets", "parenthesis", "square brackets"],
     correct: "parenthesis"
 }
+var q4 = {
+    question: "String values must be enclosed within __________ when being assigned to variables.",
+    choices: ["commas", "curly brackets", "quotes", "parenthesis"],
+    correct: "quotes"
+}
+var q5 = {
+    question: "A very useful tool used during development and debugging for printing content to the debugger is:",
+    choices: ["JavaScript", "terminal/bash", "for loops", "console.log"],
+    correct: "console.log"
+}
 
-var arrQuestions = [q1, q2, q3];
+var arrQuestions = [q1, q2, q3, q4, q5];
 var highscoreArr = [];
-var initials = localStorage.getItem("initials");
-var score = localStorage.getItem("highscore");
 
+//only start page with start button is visible
 quizSwitch.style.display = 'none';
 doneSwitch.style.display = 'none';
 scoreSwitch.style.display = 'none';
 
+
+var startQuiz = document.getElementById('start');
+//when start button is clicked, retrieve stored scores, start countdown, display quiz and hide other parts of page
 startQuiz.addEventListener("click", function(){
     var storedScores = JSON.parse(localStorage.getItem("storedValue"));
     if(storedScores !== null){
@@ -53,23 +53,7 @@ startQuiz.addEventListener("click", function(){
     quiz();
 });
 
-function renderList(){
-    var storedScores = JSON.parse(localStorage.getItem("storedValue"));
-    if(storedScores !== null){
-        highscoreArr = storedScores;
-    }
-
-    for (var i = 0; i < highscoreArr.length; i++) {
-        var init = highscoreArr[i];
-
-        var li = document.createElement("li");
-        li.textContent = init;
-        li.setAttribute("data-index", i);
-
-        scoreList.appendChild(li);
-    }
-}
-
+var timeEl = document.getElementById('countdown');
 var secondsLeft = 76;
 
 function countdown(){
@@ -83,6 +67,12 @@ function countdown(){
     },1000);
 }
 
+var question = document.getElementById('question');
+var choice1 = document.getElementById('ans1');
+var choice2 = document.getElementById('ans2');
+var choice3 = document.getElementById('ans3');
+var choice4 = document.getElementById('ans4');
+var result = document.getElementById('result');
 var choiceOne;
 var choiceTwo;
 var choiceThree;
@@ -100,18 +90,29 @@ function displayQuestion(){
     console.log(useArr);
 }
 
+//checks if clicked answer is correct. displays next question after being clicked. if no more questions, end quiz
 function quiz(){
     choice1.addEventListener("click", function(){
         if (choiceOne == useArr[randIndex].correct){
             result.textContent = 'Correct!';
             useArr.splice(randIndex,1);
-            displayQuestion();
+            if (useArr.length>0){
+                displayQuestion();
+            }
+            else {
+                done();
+            }
         }
         else {
             result.textContent = 'Wrong!';
             secondsLeft = secondsLeft-10;
             useArr.splice(randIndex,1);
-            displayQuestion();
+            if (useArr.length>0){
+                displayQuestion();
+            }
+            else {
+                done();
+            }
         }
     });
     choice2.addEventListener("click", function(){
@@ -187,14 +188,17 @@ function quiz(){
     });
 }
 
+var displayScore = document.getElementById('score');
+var submit = document.getElementById('submit');
 var finalScore;
 var input = "";
-
+//end quiz displays score received and allows user to input initials
 function done(){
     doneSwitch.style.display = 'initial';
     quizSwitch.style.display = 'none';
     finalScore = secondsLeft;
     displayScore.textContent = 'Your final score is '+ finalScore + '.';
+    //when submit button is clicked, score is stored in local storage, list of previous scores are rendered and displayed
     submit.addEventListener("click", function(){
         input = document.getElementById('initials').value;
         highscoreArr.push(input + ' - ' + finalScore);
@@ -205,6 +209,24 @@ function done(){
     });
 }
 
+function renderList(){
+    var storedScores = JSON.parse(localStorage.getItem("storedValue"));
+    if(storedScores !== null){
+        highscoreArr = storedScores;
+    }
+
+    for (var i = 0; i < highscoreArr.length; i++) {
+        var init = highscoreArr[i];
+
+        var li = document.createElement("li");
+        li.textContent = init;
+        li.setAttribute("data-index", i);
+
+        scoreList.appendChild(li);
+    }
+}
+
+//displays highscores and hide other parts of page
 function viewScores(){
     startSwitch.style.display = 'none';
     doneSwitch.style.display = 'none';
@@ -214,6 +236,9 @@ function viewScores(){
 function storeScores(){
     localStorage.setItem("storedValue", JSON.stringify(highscoreArr));
 }
+
+var goBack = document.getElementById('back');
+var clearScores = document.getElementById('clear');
 
 goBack.addEventListener("click", function(){
     startSwitch.style.display = 'block';
